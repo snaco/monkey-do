@@ -31,12 +31,11 @@ class MonkeyHandler():
     def get_response(self, query_params: dict[str,str] = None):
         '''Executes the script if one exists, otherwise will return the monkey response'''
         if self.response.script:
-            local_vars = {
-                'query_params': query_params,
-                'response': None,
-                'route': self.route
-            }
-            exec(open(f'config/{self.response.script}', encoding='UTF-8').read(), globals(), local_vars) # pylint: disable=exec-used
-            print(f'response: {local_vars["response"]}')
-            return MonkeyResponse(status=self.response.status, body=local_vars['response'], mime_type=self.response.mime_type)
+            globals()['query_params'] = query_params
+            globals()['response'] = None
+            globals()['route'] = self.route
+            #TODO : Implement body parsing       pylint:disable=fixme
+            globals()['body'] = None
+            exec(open(f'config/{self.response.script}', encoding='UTF-8').read(), globals()) # pylint: disable=exec-used
+            return MonkeyResponse(status=self.response.status, body=globals()['response'], mime_type=self.response.mime_type)
         return self.response
