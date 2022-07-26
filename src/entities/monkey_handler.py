@@ -30,12 +30,16 @@ class MonkeyHandler():
 
     def get_response(self, query_params: dict[str,str] = None):
         '''Executes the script if one exists, otherwise will return the monkey response'''
+        code_prefix = open('src/templates/script_prefix.py', encoding='UTF-8').read()
+        code_suffix = open('src/templates/script_suffix.py', encoding='UTF-8').read()
         if self.response.script:
             globals()['query_params'] = query_params
             globals()['response'] = None
             globals()['route'] = self.route
             #TODO : Implement body parsing       pylint:disable=fixme
             globals()['body'] = None
-            exec(open(f'config/{self.response.script}', encoding='UTF-8').read(), globals()) # pylint: disable=exec-used
+            file_contents = open(f'config/{self.response.script}', encoding='UTF-8').read()
+            code = f'{code_prefix}{file_contents}{code_suffix}'
+            exec(code, globals()) # pylint: disable=exec-used
             return MonkeyResponse(status=self.response.status, body=globals()['response'], mime_type=self.response.mime_type)
         return self.response

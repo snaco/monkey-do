@@ -1,10 +1,10 @@
 '''Sample script with the boilerplate to interact with monkey-do'''
 # pylint: disable=used-before-assignment,invalid-name,undefined-variable
 #inputs
-query_params: dict = globals()['query_params']
-route: str = globals()['route']
-body: str = globals()['body']
+query_params: dict
+route: str
+body: str
 
 #outputs
-globals()['response'] = 'Hello there.'
-globals()['status'] = 200
+response = 'Hello there'
+status = 200
