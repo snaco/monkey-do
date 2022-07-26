@@ -29,11 +29,17 @@ handlers:
       mime_type: application/json
       body: '{
         "data": "goodbye!"
-        "derp": "derp!"
-      }'
+        "derp": "derp!" }'
   - handler_id: parameterized_point
     method: GET
     route: /things/are/{check}
     response:
       status: 200
       body: they are the same
+  - handler_id: script_test
+    method: GET
+    route: /script
+    response:
+      status: 200
+      script: monkey-responses/sample_script.py
+      mime_type: text/html
