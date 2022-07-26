@@ -1,5 +1,5 @@
 # monkey-do
-Tool to set up ~~mock~~ http apis quickly
+Tool for rapid prototyping of functional REST APIs.
 #
 ### Prerequisites:
 - python 3.9 installed
