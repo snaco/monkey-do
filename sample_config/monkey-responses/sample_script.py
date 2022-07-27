@@ -6,9 +6,5 @@ route: str
 body: str
 
 #outputs
-response: str
-status: int
-
-# Do what you want to response and set status, it wll be used in the response
-response = 'Hello there.'
+response = 'Hello there'
 status = 200

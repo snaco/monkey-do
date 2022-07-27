@@ -131,4 +131,6 @@ dmypy.json
 .vscode
 requirements.txt
 aws.sh
-config2
+config
+aws.sh
+git-s3-push
