@@ -10,6 +10,8 @@ Tool for rapid prototyping of functional REST APIs.
 2. Run ```make monkey-do``` to build and run the service
 3. run ```curl localhost:8484/hello/world.json``` to get a json response
 4. open http://localhost:8484/hello/world in your browser
+### Configuring Monkey-do
+Refer to the sample_config folder to see how everything is used. the config.mnkc file is the configuration for the api and it's endpoints, routes etc. This is where you will tell monkey-do to use raw text, json, scripts etc when a certain enpoint is hit.
 #
 ## Makefle:
 
