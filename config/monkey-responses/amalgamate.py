@@ -111,5 +111,5 @@ for form in forms:
 amalgam = Amalgam(entities)
 
 #output
-globals()['status'] = 200
-globals()['response'] = str(amalgam)
+status = 200
+response = str(amalgam)

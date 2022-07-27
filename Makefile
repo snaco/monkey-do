@@ -2,7 +2,7 @@ help:           ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 docker-build:	## makes requirements and builds the docker image
-	@docker build --tag monkey-do-docker .
+	@docker build --tag snaco/monkey-do-docker .
 
 docker-rm:	## deletes the docker container (must be stopped first) and deletes the image. use this between builds
 	@docker container prune
@@ -11,7 +11,7 @@ docker-rm:	## deletes the docker container (must be stopped first) and deletes t
 docker-run:	## run monkey-do as a docker container
 	@docker run -p 8484:8484 \
 	 -v $$HOME/.config/monkey-do:/app/config \
-	 monkey-do-docker
+	 snaco/monkey-do-docker
 
 config-link:    ## make a symbolic link to the config directory in the workspace, for initial linking of config directory
 	@mkdir -p $$HOME/.config/monkey-do
