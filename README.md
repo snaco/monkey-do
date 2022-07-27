@@ -14,8 +14,7 @@ Tool for rapid prototyping of functional REST APIs.
 Refer to the sample_config folder to see how everything is used. the config.mnkc file is the configuration for the api and it's endpoints, routes etc. This is where you will tell monkey-do to use raw text, json, scripts etc when a certain enpoint is hit.
 #
 ## Makefle:
-
-```make config-link``` - sets up a config directory for monkey-do, copies the sample config and makes a symlink in the workspace
+```make init-config``` - makes a copy of the sample_config into config folder which is used for the app WILL OVERRIDE ANY EXISTING CONFIGS
 
 ```make monkey-do``` - build and run monkey-do
 
