@@ -1,0 +1,16 @@
+# port for the server to accept requests at
+port: 8484
+handlers:
+  - handler_id: root
+    method: GET
+    route: /
+    response:
+      status: 200
+      body: monkey-do running!
+  - handler_id: amalgamate
+    method: GET
+    route: /amalgamate
+    response: 
+      status: 500
+      mime_type: application/json
+      script: monkey-responses/amalgamate.py
