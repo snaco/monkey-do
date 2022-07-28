@@ -9,9 +9,7 @@ docker-rm:	## deletes the docker container (must be stopped first) and deletes t
 	@docker rmi monkey-do-docker
 
 docker-run:	## run monkey-do as a docker container
-	@docker run -p 8484:8484 \
-	 -v $$HOME/.config/monkey-do:/app/config \
-	 snaco/monkey-do-docker
+	@docker run -p 8484:8484 snaco/monkey-do-docker
 
 config-link:    ## make a symbolic link to the config directory in the workspace, for initial linking of config directory
 	@mkdir -p $$HOME/.config/monkey-do
