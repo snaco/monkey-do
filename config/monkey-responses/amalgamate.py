@@ -1,15 +1,43 @@
 #!/usr/bin/env python
 """Script for calculating Amalgamated stats"""
 #pylint: disable=invalid-name,redefined-builtin,super-init-not-called,used-before-assignment
+from dataclasses import dataclass
+import json
 import os
 import sys
 import yaml
+from enum import Enum
 
 
 PHYSICAL_ABILITIES = ['str', 'dex', 'con']
 MENTAL_ABILITIES = ['int', 'wis', 'cha']
 ABILITIES = PHYSICAL_ABILITIES + MENTAL_ABILITIES
 STATS = ABILITIES + ['consolidation_points']
+
+
+class AbilityType(Enum):
+    STR = 0
+    DEX = 1
+    CON = 2
+    INT = 3
+    WIS = 4
+    CHA = 5
+
+
+@dataclass
+class Ability:
+    abilityType: AbilityType
+    score: int
+
+@dataclass
+class StatBlock:
+    str: AbilityType
+    dex: AbilityType
+    con: AbilityType
+    int: AbilityType
+    wis: AbilityType
+    cha: AbilityType
+    ac: int
 
 
 class AmaglamatableEntity:
@@ -40,6 +68,19 @@ class AmaglamatableEntity:
     def ac(self): # pylint: disable=invalid-name
         """ returns the armor class """
         return 10 + self.ability_modifier('dex')
+
+    def getStatBlock(self) -> StatBlock:
+        return StatBlock(
+            Ability(AbilityType.STR, self.str),
+            Ability(AbilityType.DEX, self.dex),
+            Ability(AbilityType.CON, self.con),
+            Ability(AbilityType.INT, self.int),
+            Ability(AbilityType.WIS, self.wis),
+            Ability(AbilityType.CHA, self.cha),
+        )
+
+    def getStatBlockJSON(self):
+        return json.dumps(self.getStatBlock())
 
     def __str__(self) -> str:
         return \
@@ -112,4 +153,4 @@ amalgam = Amalgam(entities)
 
 #output
 status = 200
-response = str(amalgam)
+response = amalgam.getStatBlockJSON()
