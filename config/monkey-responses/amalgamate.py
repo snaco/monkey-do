@@ -6,7 +6,8 @@ import json
 import os
 import sys
 import yaml
-from enum import Enum
+from marshmallow import Schema, fields
+from marshmallow_enum import EnumField, Enum
 
 
 PHYSICAL_ABILITIES = ['str', 'dex', 'con']
@@ -22,6 +23,21 @@ class AbilityType(Enum):
     INT = 3
     WIS = 4
     CHA = 5
+
+
+class AbilitySchema(Schema):
+    abilityType = EnumField(AbilityType, dump_by=EnumField.VALUE)
+    score = fields.Integer()
+
+
+class StatBlockSchema(Schema):
+    str = fields.Nested(AbilitySchema)
+    dex = fields.Nested(AbilitySchema)
+    con = fields.Nested(AbilitySchema)
+    int = fields.Nested(AbilitySchema)
+    wis = fields.Nested(AbilitySchema)
+    cha = fields.Nested(AbilitySchema)
+    ac = fields.Integer()
 
 
 @dataclass
@@ -68,19 +84,6 @@ class AmaglamatableEntity:
     def ac(self): # pylint: disable=invalid-name
         """ returns the armor class """
         return 10 + self.ability_modifier('dex')
-
-    def getStatBlock(self) -> StatBlock:
-        return StatBlock(
-            Ability(AbilityType.STR, self.str),
-            Ability(AbilityType.DEX, self.dex),
-            Ability(AbilityType.CON, self.con),
-            Ability(AbilityType.INT, self.int),
-            Ability(AbilityType.WIS, self.wis),
-            Ability(AbilityType.CHA, self.cha),
-        )
-
-    def getStatBlockJSON(self):
-        return json.dumps(self.getStatBlock())
 
     def __str__(self) -> str:
         return \
@@ -129,6 +132,20 @@ class Amalgam(AmaglamatableEntity):
     def ac(self):
         return 10 + self.ability_modifier('dex') + int(self.ability_modifier('con') / 2)
 
+    def getStatBlock(self) -> StatBlock:
+        return StatBlock(
+            Ability(AbilityType.STR, self.str),
+            Ability(AbilityType.DEX, self.dex),
+            Ability(AbilityType.CON, self.con),
+            Ability(AbilityType.INT, self.int),
+            Ability(AbilityType.WIS, self.wis),
+            Ability(AbilityType.CHA, self.cha),
+            self.ac()
+        )
+
+    def getStatBlockJSON(self):
+        return StatBlockSchema().dumps(self.getStatBlock())
+
 
 def load_entity(form_name: str):
     """Load entity yaml to variable"""
@@ -141,7 +158,8 @@ route: str
 body: str
 
 #do work
-forms = query_params['forms'].split(',')
+# forms = query_params['forms'].split(',')
+forms = ['weaver', 'observer']
 available_forms = list(map(lambda f: f.replace('.yaml', ''), os.listdir('config/forms')))
 entities = []
 for form in forms:

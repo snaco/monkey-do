@@ -9,6 +9,8 @@ pyyaml = "==6.0"
 click = "==8.0.3"
 gunicorn = "==20.1.0"
 pylint = "*"
+marshmallow = "*"
+marshmallow-enum = "*"
 
 [dev-packages]
 pylint = "==2.12.2"
